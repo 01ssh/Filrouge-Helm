@@ -9,6 +9,7 @@ before_script:
   - set -eo pipefail
   # Activate werf
   - |
+    helm repo add ${REPO_URL}
     # Update the available Helm repo via werf
     helm repo update
     # Look for all the files with chart descriptions and use them to build dependencies
