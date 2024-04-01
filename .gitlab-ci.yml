@@ -41,5 +41,3 @@ before_script:
         echo "Chart package $package already exists in Helm repo! Skip!"
       fi
     done
-  only:
-  - tags
