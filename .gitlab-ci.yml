@@ -3,6 +3,7 @@ stages:
 - publish-charts
 
 variables:
+  CI_DEBUG_TRACE: "false"
   REPO_URL: "${CI_SERVER_URL}/api/v4/projects/${CI_PROJECT_ID}/packages/helm/api/stable/charts"
 
 before_script:
