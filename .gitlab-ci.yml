@@ -7,14 +7,12 @@ variables:
 before_script:
   - set -eo pipefail
   # Activate werf
-  - type trdl && . $(trdl use werf 1.2 stable)
-  - type werf && source $(werf ci-env GitLab --as-file)
   - |
     # Update the available Helm repo via werf
-    werf helm repo update
+    helm repo update
     # Look for all the files with chart descriptions and use them to build dependencies
     find . -type f -regex '.*/\(Chart.ya?ml\|requirements.ya?ml\)' -exec \
-      sh -c 'werf helm dependency build $(dirname "{}") --skip-refresh' \;
+      sh -c 'helm dependency build $(dirname "{}") --skip-refresh' \;
 
 "publish charts":
   stage: publish-charts
@@ -24,7 +22,7 @@ before_script:
     mkdir -p .packages
     while read chart; do
       echo "[PACKAGING CHART $chart]"
-      werf helm package "$chart" -d .packages
+      helm package "$chart" -d .packages
     done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d)
   - |
     # Define two variables: CHART_NAME and CHART_VERSION
