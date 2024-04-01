@@ -9,10 +9,6 @@ before_script:
   - set -eo pipefail
   # Activate werf
   - |
-    echo "helm repo add --username $REPO_PUSH --password $REPO_PUSH_SECRET $REPO_NAME $REPO_URL"
-    helm repo add --username $REPO_PUSH --password $REPO_PUSH_SECRET $REPO_URL
-    # Update the available Helm repo via werf
-    helm repo update
     # Look for all the files with chart descriptions and use them to build dependencies
     find . -type f -regex '.*/\(Chart.ya?ml\|requirements.ya?ml\)' -exec \
       sh -c 'helm dependency build $(dirname "{}") --skip-refresh' \;
