@@ -9,7 +9,7 @@ before_script:
   - set -eo pipefail
   # Activate werf
   - |
-    echo "helm repo add --username $REPO_PUSH --password $REPO_PUSH_SECRET $REPO_URL"
+    echo "helm repo add --username $REPO_PUSH --password $REPO_PUSH_SECRET $REPO_NAME $REPO_URL"
     helm repo add --username $REPO_PUSH --password $REPO_PUSH_SECRET $REPO_URL
     # Update the available Helm repo via werf
     helm repo update
