@@ -1,3 +1,4 @@
+image: docker.io/awswordpressfilrouge/toolset:latest
 stages:
 - publish-charts
 
