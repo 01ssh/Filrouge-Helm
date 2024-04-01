@@ -33,9 +33,5 @@ before_script:
       #CHART_EXISTS=$(helm search repo -l $REPO_NAME/$CHART_NAME | { egrep "$REPO_NAME/$CHART_NAME\s"||true; } | { egrep "$CHART_VERSION\s"||true; } | wc -l)
       # If it does not exist, then push it into the package registry; otherwise,
       # display a message that the chart is already present in the Helm repo
-      if [ $CHART_EXISTS = 0 ]; then
-        curl -sSl --post301 --form "chart=@.packages/$package" --user "$REPO_PUSH:$REPO_PUSH_SECRET" "$REPO_URL"
-      else
-        echo "Chart package $package already exists in Helm repo! Skip!"
-      fi
+      curl -sSl --post301 --form "chart=@.packages/$package" --user "$REPO_PUSH:$REPO_PUSH_SECRET" "$REPO_URL"
     done
