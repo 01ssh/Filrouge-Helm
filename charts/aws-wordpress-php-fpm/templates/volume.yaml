@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  namespace: {{ .namespace }}
+  namespace: {{ .Values.namespace }}
   name: {{ .name }}
   labels:
     type: local
@@ -18,7 +18,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  namespace: {{ .namespace }}
+  namespace: {{ .Values.namespace }}
   name: {{ .persistentVolumeClaim.claimName }}
 spec:
   storageClassName: standard
