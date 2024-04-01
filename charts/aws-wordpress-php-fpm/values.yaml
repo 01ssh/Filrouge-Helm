@@ -69,7 +69,6 @@ affinity: {}
 
 volumes:
   - name: web-volume-pv
-    namespace: development
     path: /var/www/html
     accessModes: ReadWriteMany
     capacity: 10Gi
