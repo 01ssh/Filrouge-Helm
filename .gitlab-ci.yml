@@ -3,11 +3,11 @@ stages:
 - publish-charts
 
 variables:
+  CI_DEBUG_TRACE: "true"
   REPO_URL: "${CI_SERVER_URL}/api/v4/projects/${CI_PROJECT_ID}/packages/helm/api/stable/charts"
 
 before_script:
   - set -eo pipefail
-  # Activate werf
   - |
     # Look for all the files with chart descriptions and use them to build dependencies
     find . -type f -regex '.*/\(Chart.ya?ml\|requirements.ya?ml\)' -exec \
@@ -28,9 +28,6 @@ before_script:
     find .packages -mindepth 1 -maxdepth 1 -type f -name '*.tgz' -exec sh -c 'basename "$0"' '{}' \; | while read package; do
       CHART_NAME=$(echo $package | sed -e 's/-[0-9]\.[0-9]\.[0-9]\.tgz$//g')
       CHART_VERSION=$(echo $package | sed -e 's/^[a-zA-Z-].*-//g' | sed -e 's/.tgz$//g')
-      # Check if a chart with this name and version already exists in a Helm repo
       CHART_EXISTS=$(helm search repo -l $REPO_NAME/$CHART_NAME | { egrep "$REPO_NAME/$CHART_NAME\s"||true; } | { egrep "$CHART_VERSION\s"||true; } | wc -l)
-      # If it does not exist, then push it into the package registry; otherwise,
-      # display a message that the chart is already present in the Helm repo
       curl -sSl --post301 --form "chart=@.packages/$package" --user "$REPO_PUSH:$REPO_PUSH_SECRET" "$REPO_URL"
     done
