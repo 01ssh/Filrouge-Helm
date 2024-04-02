@@ -3,10 +3,10 @@
 # Declare variables to be passed into your templates.
 
 namespace: development
-replicaCount: 2
+replicaCount: 3
 
 image:
-  repository: 296615500438.dkr.ecr.eu-west-3.amazonaws.com/php-fpm
+  repository: 533266957521.dkr.ecr.eu-west-3.amazonaws.com/php-fpm
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
