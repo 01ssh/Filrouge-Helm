@@ -2,6 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+namespace: development
 replicaCount: 2
 
 image:
@@ -85,3 +86,14 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+volumes:
+  - name: web-volume-pv
+    namespace: development
+    path: /var/www/html
+    accessModes: ReadWriteMany
+    capacity: 10Gi
+    persistentVolumeClaim:
+       accessModes: ReadWriteMany
+       claimName: web-volume-pvc
+       capacity: 10Gi

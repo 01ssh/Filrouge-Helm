@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-namespace: production
+namespace: development
 replicaCount: 2
 
 image:
@@ -69,7 +69,7 @@ affinity: {}
 
 volumes:
   - name: web-volume-pv
-    namespace: production
+    namespace: development
     path: /var/www/html
     accessModes: ReadWriteMany
     capacity: 10Gi
