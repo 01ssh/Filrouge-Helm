@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "aws-wordpress-web.fullname" . }}
   namespace: {{ .Values.namespace }}
+  name: {{ include "aws-wordpress-web.fullname" . }}
   labels:
     {{- include "aws-wordpress-web.labels" . | nindent 4 }}
 spec:

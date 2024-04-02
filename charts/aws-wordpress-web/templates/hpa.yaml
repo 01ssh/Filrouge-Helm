@@ -2,6 +2,7 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
+  namespace: {{ .Values.namespace }}
   name: {{ include "aws-wordpress-web.fullname" . }}
   labels:
     {{- include "aws-wordpress-web.labels" . | nindent 4 }}
