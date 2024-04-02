@@ -25,7 +25,7 @@ before_script:
     while read chart; do
       echo "[PACKAGING CHART $chart]"
       helm package "$chart" -d .packages
-    done < <(find .helm/charts -mindepth 1 -maxdepth 1 -type d)
+    done < <(find ./charts -mindepth 1 -maxdepth 1 -type d)
   - |
     # Define two variables: CHART_NAME and CHART_VERSION
     find .packages -mindepth 1 -maxdepth 1 -type f -name '*.tgz' -exec sh -c 'basename "$0"' '{}' \; | while read package; do
@@ -33,11 +33,8 @@ before_script:
       CHART_VERSION=$(echo $package | sed -e 's/^[a-zA-Z-].*-//g' | sed -e 's/.tgz$//g')
       # Check if a chart with this name and version already exists in a Helm repo
       CHART_EXISTS=$(werf helm search repo -l $REPO_NAME/$CHART_NAME | { egrep "$REPO_NAME/$CHART_NAME\s"||true; } | { egrep "$CHART_VERSION\s"||true; } | wc -l)
+      #CHART_EXISTS=$(helm search repo -l $REPO_NAME/$CHART_NAME | { egrep "$REPO_NAME/$CHART_NAME\s"||true; } | { egrep "$CHART_VERSION\s"||true; } | wc -l)
       # If it does not exist, then push it into the package registry; otherwise,
       # display a message that the chart is already present in the Helm repo
-      if [ $CHART_EXISTS = 0 ]; then
-        curl -sSl --post301 --form "chart=@.packages/$package" --user "$REPO_PUSH:$REPO_PUSH_SECRET" "$REPO_URL"
-      else
-        echo "Chart package $package already exists in Helm repo! Skip!"
-      fi
+      curl -sSl --post301 --form "chart=@.packages/$package" --user "$REPO_PUSH:$REPO_PUSH_SECRET" "$REPO_URL"
     done
